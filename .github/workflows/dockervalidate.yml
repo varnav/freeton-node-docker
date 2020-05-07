@@ -1,0 +1,33 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+name: Validate code
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install hadolint and lynis
+      run: |
+        curl -sL -o ${HOME}/hadolint "https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-$(uname -s)-$(uname -m)"
+        chmod 700 ${HOME}/hadolint
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F
+        sudo apt-get -y install apt-transport-https
+        echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+        sudo apt-get update
+        sudo apt-get -y install lynis
+    - name: Run hadolint
+      run: ${HOME}/hadolint --ignore DL3003 --ignore DL3008 --ignore DL4006 Dockerfile
+    - name: Run Lynis
+      run: lynis --no-colors audit dockerfile Dockerfile
