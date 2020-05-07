@@ -6,7 +6,7 @@ LABEL License="MIT License"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-	apt-get install --no-install-recommends -y build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git
+	apt-get install --no-install-recommends -y ca-certificates build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git
 WORKDIR /
 RUN git clone --depth 1 --recursive https://github.com/ton-blockchain/ton
 WORKDIR /ton
@@ -14,7 +14,7 @@ WORKDIR /ton
 RUN mkdir build && \
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=Release .. && \
-	make -j
+	make -j 2
 
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
