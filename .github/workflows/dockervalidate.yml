@@ -1,14 +1,10 @@
-name: Docker Image CI
+name: Validate code
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-name: Validate code
-
-on: [push]
 
 jobs:
 

@@ -1,10 +1,10 @@
 # Telegram Open Network Node
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/varnav/freeton-node.svg)](https://hub.docker.com/r/varnav/freeton-node)
+![Validate code](https://github.com/varnav/freeton-node-docker/workflows/Validate%20code/badge.svg)[![Docker Pulls](https://img.shields.io/docker/pulls/varnav/freeton-node.svg)](https://hub.docker.com/r/varnav/freeton-node)
 
 Dockerfile for FreeTON Node
 
-https://test.ton.org
+https://freeton.org/
 
 #### Open firewall
 
