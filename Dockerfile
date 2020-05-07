@@ -6,7 +6,7 @@ LABEL License="MIT License"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-	apt-get install -y build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git && \
+	apt-get install --no-install-recommends -y build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git && \
 	rm -rf /var/lib/apt/lists/*
 WORKDIR /
 RUN git clone --depth 1 --recursive https://github.com/ton-blockchain/ton
@@ -20,7 +20,7 @@ RUN mkdir build && \
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-	apt-get install -y curl ca-certificates openssl wget && \
+	apt-get install --no-install-recommends -y curl ca-certificates openssl wget && \
 	rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /var/ton-work/db && \
 	mkdir -p /var/ton-work/db/static
