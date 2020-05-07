@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freeton-node
+  labels:
+    app: freeton-node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: freeton-node
+  template:
+    metadata:
+      labels:
+        app: freeton-node
+    spec:
+      containers:
+      - name: ton-node
+        image: varnav/freeton-node
+        env:
+        - name: CONSOLE_PORT
+          value: "43678"
+        - name: LITESERVER
+          value: "true"
+        - name: LITE_PORT
+          value: "43679"
+        ports:
+        - name: freeton-console
+          containerPort: 43678
+        - name: freeton-lite
+          containerPort: 43679
+        resources:
+          limits:
+            memory: "4Gi"
+            cpu: "200m"
+        volumeMounts:
+          - name: freeton-data
+            mountPath: /var/ton-work/db
+      # initContainers:
+      # - name: init-ulimitn
+      #   image: busybox
+      #   command: ["sh", "-c", "ulimit -n 16000"]
+      #   securityContext:
+      #     privileged: true
+      volumes:
+      - name: freeton-data
