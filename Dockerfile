@@ -24,8 +24,7 @@ USER ton
 WORKDIR /opt/freeton/
 RUN git clone --depth 1 --recursive https://github.com/tonlabs/main.ton.dev.git
 WORKDIR /opt/freeton/main.ton.dev/scripts/
-RUN ./env.sh && ./build.sh
-RUN ./env.sh && ./setup.sh
+RUN ./env.sh && ./build.sh && ./setup.sh
 COPY entrypoint.sh .
 EXPOSE 43678 43679
 

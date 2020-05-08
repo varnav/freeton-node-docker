@@ -6,6 +6,8 @@ Dockerfile for FreeTON Node
 
 https://freeton.org/
 
+https://github.com/tonlabs/main.ton.dev
+
 #### Open firewall
 
 `ufw allow 43679/udp`
@@ -23,13 +25,19 @@ docker build -t varnav/freeton-node .
 #### Run interactively
 
 ```bash
-docker run --rm -it --name freeton-testnet -v freeton-db:/var/ton-work/db -e "CONSOLE_PORT=43678" -e "LITESERVER=true" -e "LITE_PORT=43679" -p 43678:43678 -p 43679:43679 varnav/freeton-node
+docker run --rm -it --name freeton-testnet -v freeton-db:/var/ton-work -e "CONSOLE_PORT=43678" -e "LITESERVER=true" -e "LITE_PORT=43679" -p 43678:43678 -p 43679:43679 varnav/freeton-node
 ```
 
 #### Run as daemon
 
 ```bash
-docker run -d --restart=unless-stopped --name freeton-testnet -v freeton-db:/var/ton-work/db -e "CONSOLE_PORT=43678" -e "LITESERVER=true" -e "LITE_PORT=43679" -p 43678:43678 -p 43679:43679 varnav/freeton-node
+docker run -d --restart=unless-stopped --name freeton-testnet -v freeton-db:/var/ton-work -e "CONSOLE_PORT=43678" -e "LITESERVER=true" -e "LITE_PORT=43679" -p 43678:43678 -p 43679:43679 varnav/freeton-node
+```
+
+#### Check status
+
+```bash
+docker exec -it freeton-testnet ./check_node_sync_status.sh
 ```
 
 #### Clean all
