@@ -1,39 +1,33 @@
-FROM ubuntu:20.04 as builder
+FROM ubuntu:18.04 as builder
 
 LABEL Maintainer = "Evgeny Varnavskiy <varnavruz@gmail.com>"
 LABEL Description="Docker image for TON (Telegram open network) node"
 LABEL License="MIT License"
 
+ARG HOST_USER_UID=1000
+ARG HOST_USER_GID=1000
+
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-	apt-get install --no-install-recommends -y ca-certificates build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git
-WORKDIR /
-RUN git clone --depth 1 --recursive https://github.com/ton-blockchain/ton
-WORKDIR /ton
+ENV CMAKE_BUILD_PARALLEL_LEVEL=2
 
-RUN mkdir build && \
-	cd build && \
-	cmake -DCMAKE_BUILD_TYPE=Release .. && \
-	make -j 2
+RUN set -ex && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y cargo ninja-build sudo ca-certificates build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git && \
+    rm -rf /var/lib/apt/lists/* && \
+    groupadd --gid "$HOST_USER_GID" ton \
+    && useradd --uid "$HOST_USER_UID" --gid "$HOST_USER_GID" --create-home --shell /bin/bash ton && \
+    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+	mkdir /opt/freeton/ && \
+	chown ton:ton /opt/freeton/
 
-FROM ubuntu:20.04
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-	apt-get install --no-install-recommends -y curl ca-certificates openssl wget && \
-	rm -rf /var/lib/apt/lists/*
-RUN mkdir -p /var/ton-work/db && \
-	mkdir -p /var/ton-work/db/static
+USER ton
+WORKDIR /opt/freeton
+RUN git clone --depth 1 --recursive https://github.com/tonlabs/main.ton.dev.git
+RUN cd main.ton.dev/scripts && \
+./env.sh && \
+./build.sh && \
+./setup.sh
 
-COPY --from=builder /ton/build/lite-client/lite-client /usr/local/bin/
-COPY --from=builder /ton/build/validator-engine/validator-engine /usr/local/bin/
-COPY --from=builder /ton/build/validator-engine-console/validator-engine-console /usr/local/bin/
-COPY --from=builder /ton/build/utils/generate-random-id /usr/local/bin/
-
-WORKDIR /usr/local/bin/
-COPY init.sh control.template ./
-RUN chmod +x init.sh
-
-VOLUME /var/ton-work/db
 EXPOSE 43678 43679
 
-ENTRYPOINT ["./init.sh"]
+ENTRYPOINT ["./run.sh"]
