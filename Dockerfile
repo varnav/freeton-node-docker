@@ -16,7 +16,7 @@ RUN set -ex && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd --gid "$HOST_USER_GID" ton \
     && useradd --uid "$HOST_USER_UID" --gid "$HOST_USER_GID" --create-home --shell /bin/bash ton && \
-    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    echo "ton ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
 	mkdir /opt/freeton/ && \
 	chown ton:ton /opt/freeton/
 
