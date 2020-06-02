@@ -58,8 +58,3 @@ kubectl expose deployment freeton-node --type LoadBalancer
 #### License
 
 MIT
-
-#### Thanks to
-
-akme  
-copperbits
