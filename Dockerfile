@@ -9,7 +9,7 @@ ARG HOST_USER_GID=1000
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CMAKE_BUILD_PARALLEL_LEVEL=2
 
-SHELL ["/bin/bash", "-cex -o pipefail"]
+SHELL ["/bin/bash", "-o", "pipefail", "-ex", "-c"]
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y curl cargo ninja-build sudo ca-certificates build-essential cmake clang openssl libssl-dev zlib1g-dev gperf wget git
@@ -36,7 +36,7 @@ ARG HOST_USER_UID=1000
 ARG HOST_USER_GID=1000
 ENV DEBIAN_FRONTEND=noninteractive
 
-SHELL ["/bin/bash", "-cex -o pipefail"]
+SHELL ["/bin/bash", "-o", "pipefail", "-ex", "-c"]
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y curl sudo ca-certificates wget && \
