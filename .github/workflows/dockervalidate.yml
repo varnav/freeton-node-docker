@@ -24,6 +24,6 @@ jobs:
         sudo apt-get update
         sudo apt-get -y install lynis
     - name: Run hadolint
-      run: ${HOME}/hadolint --ignore DL3003 --ignore DL3008 --ignore DL4006 Dockerfile
+      run: ${HOME}/hadolint --ignore SC2086 --ignore DL3003 --ignore DL3008 --ignore DL4006 Dockerfile
     - name: Run Lynis
       run: lynis --no-colors audit dockerfile Dockerfile
