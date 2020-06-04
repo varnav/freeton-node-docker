@@ -31,7 +31,7 @@ docker run --rm -it --name freeton-testnet -v freeton-db:/var/ton-work -p 43678:
 #### Run as daemon
 
 ```bash
-docker run -d --restart=unless-stopped --name freeton-testnet -v freeton-db:/var/ton-work -p 43678:43678 -p 43679:43679 varnav/freeton-node
+docker run -d --restart=unless-stopped --name freeton-testnet -v freeton-db:/var/ton-work -v /opt/freeton:/home/ton -p 43678:43678 -p 43679:43679 varnav/freeton-node
 ```
 
 #### Check status
