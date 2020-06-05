@@ -25,25 +25,31 @@ docker build -t varnav/freeton-node .
 #### Run interactively
 
 ```bash
-docker run --rm -it --name freeton-testnet -v freeton-db:/var/ton-work -p 43678:43678 -p 43679:43679 varnav/freeton-node
+docker run --rm -it -v freeton-db:/var/ton-work -v /opt/freeton:/home/ton -p 43678:43678 -p 43679:43679 varnav/freeton-node
 ```
 
 #### Run as daemon
 
 ```bash
-docker run -d --restart=unless-stopped --name freeton-testnet -v freeton-db:/var/ton-work -v /opt/freeton:/home/ton -p 43678:43678 -p 43679:43679 varnav/freeton-node
+docker run -d --restart=unless-stopped --name freeton -v freeton-db:/var/ton-work -v /opt/freeton:/home/ton -p 43678:43678 -p 43679:43679 varnav/freeton-node
 ```
 
 #### Check status
 
 ```bash
-docker exec -it freeton-testnet ./check_node_sync_status.sh
+docker exec -it freeton ./check_node_sync_status.sh
+```
+
+#### Generate address
+
+```bash
+docker exec -it freeton ./msig_genaddr.sh
 ```
 
 #### Clean all
 
 ```bash
-docker rm --force freeton-testnet
+docker rm --force freeton
 docker volume rm freeton-db
 docker image rm varnav/freeton-node
 ```

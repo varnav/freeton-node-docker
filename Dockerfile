@@ -48,7 +48,6 @@ COPY --from=builder /opt/freeton/main.ton.dev /opt/freeton/main.ton.dev
 USER freeton
 WORKDIR /opt/freeton/main.ton.dev/scripts/
 RUN ./setup.sh && \
-    ./msig_genaddr.sh && \
     wget https://github.com/tonlabs/tonos-cli/releases/download/v0.1.6-rc/tonos-cli_v0.1.6_linux.tar.gz && \
     tar xvf ./*cli*.tar.gz && \
     rm -f ./*cli*.tar.gz && \
