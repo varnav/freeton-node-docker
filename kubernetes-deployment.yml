@@ -34,8 +34,10 @@ spec:
             memory: "4Gi"
             cpu: "200m"
         volumeMounts:
-          - name: freeton-data
-            mountPath: /var/ton-work/db
+          - name: freeton-db
+            mountPath: /var/ton-work
+          - name: freeton-home
+            mountPath: /home/ton
       # initContainers:
       # - name: init-ulimitn
       #   image: busybox
