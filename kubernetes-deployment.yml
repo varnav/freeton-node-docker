@@ -45,4 +45,5 @@ spec:
       #   securityContext:
       #     privileged: true
       volumes:
-      - name: freeton-data
+      - name: freeton-db
+      - name: freeton-home
